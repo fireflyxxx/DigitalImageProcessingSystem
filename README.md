@@ -1,2 +1,3 @@
 # DigitalImageProcessingSystem
 数字图像处理期末项目
+账单识别功能需要本地安装tesseract，并且在项目文件中更改路径。
