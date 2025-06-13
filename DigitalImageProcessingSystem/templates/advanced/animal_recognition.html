@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级功能 - {{ option_name_display }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>数字图像处理系统 - {{ option_name_display }}</h1>
+        <nav style="text-align: center; padding: 10px 0; background-color: #444;">
+            <a href="{{ url_for('index') }}" style="color: white; margin: 0 15px; text-decoration: none;">返回首页</a>
+        </nav>
+    </header>
+    <main class="processing-page-container">
+        <p>动物识别功能正在紧张开发中，敬请期待！</p>
+        <p>您可以在此页面设计动物识别的UI，例如图片上传、显示识别结果（可能包含边界框和标签）等。</p>
+        <p>后端API将需要一个专门的处理函数来接收图片并返回识别信息。</p>
+    </main>
+    <footer> <p>© 2023-2024 数字图像处理系统</p> </footer>
+    <!-- 如果需要特定JS，可以在这里添加或链接外部JS -->
+</body>
+</html>
