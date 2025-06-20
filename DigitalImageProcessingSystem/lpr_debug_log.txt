@@ -1,0 +1,37 @@
+--- [LPR LOG START AT 2025-06-20 22:06:02.589237] ---
+[2025-06-20 22:06:02.589335] --- [LPR START] recognize_license_plate_custom ---
+[2025-06-20 22:06:02.589475] [LPR INFO] 收到图像 shape: (142, 355, 3), dtype: uint8
+[2025-06-20 22:06:02.589578] [LPR INFO] 开始模板处理...
+[2025-06-20 22:06:02.670082] [LPR INFO] 模板二值化 retval: 127.0
+[2025-06-20 22:06:02.671579]   [LPR_SORT] sort_contours_for_plate: 输入轮廓数量: 36
+[2025-06-20 22:06:02.671835]   [LPR_SORT] 解包成功。
+[2025-06-20 22:06:02.672114] [LPR INFO] 模板字符ROI提取完毕，数量: 36
+[2025-06-20 22:06:02.672266] [LPR INFO] 开始输入图像处理和车牌定位...
+[2025-06-20 22:06:02.672765] [LPR INFO] 车牌区域提取成功, 尺寸: (33, 125, 3)
+[2025-06-20 22:06:02.672994] [LPR INFO] 车牌缩放到标准高度180后尺寸: (180, 682, 3)
+[2025-06-20 22:06:02.673451]   [LPR_SORT] sort_contours_for_plate: 输入轮廓数量: 21
+[2025-06-20 22:06:02.673613]   [LPR_SORT] 解包成功。
+[2025-06-20 22:06:02.673738] [LPR INFO] 开始筛选字符轮廓 (使用原始固定像素条件)...
+[2025-06-20 22:06:02.673865]   [LPR Char Cand 0 FAILED]: h=38. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.673987]   [LPR Char Cand 1 FAILED]: h=99. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674107]   [LPR Char Cand 2 FAILED]: h=12. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674234]   [LPR Char Cand 3 FAILED]: h=8. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674353]   [LPR Char Cand 4 FAILED]: h=12. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674469]   [LPR Char Cand 5 FAILED]: h=8. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674587]   [LPR Char Cand 6 FAILED]: h=8. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674704]   [LPR Char Cand 7 FAILED]: h=8. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674821]   [LPR Char Cand 8 FAILED]: h=38. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.674940]   [LPR Char Cand 9 PASSED]: h=142. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675056]   [LPR Char Cand 10 FAILED]: h=50. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675173]   [LPR Char Cand 11 FAILED]: h=11. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675289]   [LPR Char Cand 12 FAILED]: h=16. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675406]   [LPR Char Cand 13 FAILED]: h=12. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675545]   [LPR Char Cand 14 PASSED]: h=142. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675665]   [LPR Char Cand 15 PASSED]: h=141. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675783]   [LPR Char Cand 16 PASSED]: h=143. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.675902]   [LPR Char Cand 17 PASSED]: h=142. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.676021]   [LPR Char Cand 18 FAILED]: h=16. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.676140]   [LPR Char Cand 19 FAILED]: h=11. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.676268]   [LPR Char Cand 20 PASSED]: h=142. Condition: (140 < h < 145)
+[2025-06-20 22:06:02.676387] [LPR INFO] 筛选出有效字符区域数量: 6
+[2025-06-20 22:06:02.709039] [LPR INFO] 识别结果: RFIY37

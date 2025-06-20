@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级功能 - {{ option_name_display }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .controls-group { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 5px; background-color: #fdfdfd;}
+        #billResultTextOutput { margin-top: 15px; padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; white-space: pre-wrap; text-align: left; font-family: monospace; max-height: 400px; overflow-y: auto; min-height: 100px; }
+        #errorMessageAdvanced { color: red; margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>数字图像处理系统 - {{ option_name_display }}</h1>
+        <nav style="text-align: center; padding: 10px 0; background-color: #444;">
+            <a href="{{ url_for('index') }}" style="color: white; margin: 0 15px; text-decoration: none;">返回首页</a>
+        </nav>
+    </header>
+    <main class="processing-page-container">
+        <section class="upload-section">
+            <h2>1. 上传账单图片</h2>
+            <input type="file" id="imageUploadAdvanced" accept="image/*">
+            <img id="previewImageAdvanced" src="#" alt="账单图片预览" style="display:none; max-width: 100%; margin-top:10px;">
+            <div id="advancedOperationControls" style="margin-top: 20px;"><p>上传账单图片后，点击下方按钮进行内容识别。</p></div>
+            <button id="processBillButton" class="action-button">识别账单内容</button>
+            <div id="errorMessageAdvanced" style="display:none;"></div>
+        </section>
+        <section class="output-section">
+            <h2>2. 识别结果</h2>
+            <div id="billResultTextOutput"><p class="placeholder-text">识别的文本将显示在这里...</p></div>
+        </section>
+    </main>
+    <footer> <p>© 2023-2024 数字图像处理系统</p> </footer>
+    <script>
+        const API_ENDPOINT_V2_ADV = "{{ url_for('process_image_api_v2') }}";
+        const currentAdvancedOperation = "{{ option_name_internal }}";
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageUpload = document.getElementById('imageUploadAdvanced');
+            const previewImage = document.getElementById('previewImageAdvanced');
+            const processBillButton = document.getElementById('processBillButton');
+            const billResultTextOutputDiv = document.getElementById('billResultTextOutput');
+            const errorMessageDiv = document.getElementById('errorMessageAdvanced');
+            let uploadedFile = null;
+            imageUpload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    uploadedFile = file; previewImage.src = URL.createObjectURL(file);
+                    previewImage.style.display = 'block';
+                    billResultTextOutputDiv.innerHTML = '<p class="placeholder-text">请点击“识别账单内容”按钮</p>';
+                    errorMessageDiv.style.display = 'none';
+                }
+            });
+            processBillButton.addEventListener('click', async function() {
+                if (!uploadedFile) { showErrorAdvanced("请先上传一张账单图片！"); return; }
+                showErrorAdvanced(''); billResultTextOutputDiv.innerHTML = '<p class="placeholder-text">正在识别中，请稍候...</p>';
+                processBillButton.disabled = true;
+                const formData = new FormData(); formData.append('image', uploadedFile);
+                formData.append('current_operation_category', currentAdvancedOperation);
+                try {
+                    const response = await fetch(API_ENDPOINT_V2_ADV, { method: 'POST', body: formData });
+                    const result = await response.json();
+                    if (!response.ok) { throw new Error(result.text || `处理失败 (HTTP ${response.status})`); }
+                    if (result.success) { billResultTextOutputDiv.textContent = result.text || "未能识别到文本内容。"; }
+                    else { showErrorAdvanced(result.text || "账单识别失败。"); billResultTextOutputDiv.innerHTML = '<p class="placeholder-text">识别失败</p>';}
+                } catch (error) { console.error("账单识别错误:", error); showErrorAdvanced(`识别过程中发生错误: ${error.message}`); billResultTextOutputDiv.innerHTML = '<p class="placeholder-text">识别出错</p>';}
+                finally { processBillButton.disabled = false; }
+            });
+            function showErrorAdvanced(message) { errorMessageDiv.textContent = message; errorMessageDiv.style.display = message ? 'block' : 'none';}
+        });
+    </script>
+</body>
+</html>

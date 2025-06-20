@@ -1,0 +1,177 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #007bff; /* 蓝色主题 */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+nav {
+    background-color: #333; /* 深色导航栏 */
+    padding: 10px 0;
+    display: flex;
+    justify-content: center; /* 居中导航项 */
+}
+
+.menu-item {
+    position: relative; /* 为了子菜单定位 */
+    margin: 0 15px;
+}
+
+.main-button, .sub-button, .sub-sub-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.main-button:hover, .sub-button:hover, .sub-sub-button:hover {
+    background-color: #0056b3; /* 悬停时深一点的蓝色 */
+}
+
+.sub-button, .sub-sub-button {
+    background-color: #555; /* 子菜单按钮颜色 */
+    display: block; /* 让子菜单项垂直排列 */
+    width: 100%;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+.sub-sub-button {
+    background-color: #777; /* 更深层子菜单颜色 */
+    font-size: 14px;
+    padding: 10px 20px;
+}
+
+.sub-button:hover, .sub-sub-button:hover {
+    background-color: #444;
+}
+
+
+.sub-menu, .sub-sub-menu {
+    position: absolute;
+    top: 100%; /* 出现在按钮下方 */
+    left: 0;
+    background-color: #444; /* 子菜单背景 */
+    border: 1px solid #555;
+    border-radius: 0 0 5px 5px;
+    z-index: 1000;
+    min-width: 200px; /* 子菜单最小宽度 */
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.sub-sub-menu {
+    position: static; /* 嵌套子菜单正常文档流 */
+    background-color: #666;
+    border-top: 1px solid #777;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+
+.hidden {
+    display: none !important; /* !important 确保覆盖其他可能的display属性 */
+}
+
+main {
+    flex-grow: 1; /* 让main内容区域占据剩余空间 */
+    padding: 30px;
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: #aaa;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9em;
+}
+
+/* 基本处理页面的样式 (稍后会用到) */
+.processing-page-container {
+    display: flex;
+    gap: 20px; /* 左右两栏的间距 */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto; /* 页面居中 */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.upload-section {
+    flex: 1; /* 左边上传区域占据一部分空间 */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.upload-section input[type="file"] {
+    display: block;
+    margin: 15px auto;
+}
+
+.upload-section button {
+    background-color: #28a745; /* 绿色处理按钮 */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.upload-section button:hover {
+    background-color: #218838;
+}
+
+.output-section {
+    flex: 2; /* 右边输出区域占据更多空间 */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.output-section img {
+    max-width: 100%;
+    max-height: 400px; /* 限制图片最大高度 */
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+.output-section .placeholder-text {
+    color: #777;
+    font-style: italic;
+}
+.output-section button { /* 保存按钮 */
+    background-color: #007bff;
+    color: white;
+}
+.output-section button:hover {
+    background-color: #0056b3;
+}

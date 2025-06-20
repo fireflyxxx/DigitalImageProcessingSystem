@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级功能 - {{ option_name_display }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        #licensePlateResultOutput { margin-top: 15px; padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; white-space: pre-wrap; text-align: center; font-family: 'Courier New', Courier, monospace; font-size: 1.8em; letter-spacing: 2px; min-height: 60px; display: flex; align-items: center; justify-content: center;}
+        #errorMessageAdvanced { color: red; margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>数字图像处理系统 - {{ option_name_display }}</h1>
+        <nav style="text-align: center; padding: 10px 0; background-color: #444;">
+            <a href="{{ url_for('index') }}" style="color: white; margin: 0 15px; text-decoration: none;">返回首页</a>
+        </nav>
+    </header>
+    <main class="processing-page-container">
+        <section class="upload-section">
+            <h2>1. 上传包含车牌的图片</h2>
+            <input type="file" id="imageUploadAdvanced" accept="image/*">
+            <img id="previewImageAdvanced" src="#" alt="车牌图片预览" style="display:none; max-width: 100%; margin-top:10px;">
+            <div id="advancedOperationControls" style="margin-top: 20px;"><p>系统将尝试定位并识别图片中的车牌号码。</p></div>
+            <button id="processLicensePlateButton" class="action-button">识别车牌</button>
+            <div id="errorMessageAdvanced" style="display:none;"></div>
+        </section>
+        <section class="output-section">
+            <h2>2. 识别结果</h2>
+            <div id="licensePlateResultOutput"><p class="placeholder-text">识别的车牌号将显示在这里...</p></div>
+        </section>
+    </main>
+    <footer> <p>© 2023-2024 数字图像处理系统</p> </footer>
+    <script>
+        const API_ENDPOINT_V2_LICENSE = "{{ url_for('process_image_api_v2') }}";
+        const currentLicenseOp = "{{ option_name_internal }}";
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageUpload = document.getElementById('imageUploadAdvanced');
+            const previewImage = document.getElementById('previewImageAdvanced');
+            const processButton = document.getElementById('processLicensePlateButton');
+            const resultTextDiv = document.getElementById('licensePlateResultOutput');
+            const errorMessageDiv = document.getElementById('errorMessageAdvanced');
+            let uploadedFile = null;
+            imageUpload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    uploadedFile = file; previewImage.src = URL.createObjectURL(file);
+                    previewImage.style.display = 'block';
+                    resultTextDiv.innerHTML = '<p class="placeholder-text">请点击“识别车牌”按钮</p>';
+                    errorMessageDiv.style.display = 'none';
+                }
+            });
+            processButton.addEventListener('click', async function() {
+                if (!uploadedFile) { showErrorAdvanced("请先上传一张车牌图片！"); return; }
+                showErrorAdvanced(''); resultTextDiv.innerHTML = '<p class="placeholder-text">正在识别车牌，请稍候...</p>';
+                processButton.disabled = true;
+                const formData = new FormData(); formData.append('image', uploadedFile);
+                formData.append('current_operation_category', currentLicenseOp);
+                try {
+                    const response = await fetch(API_ENDPOINT_V2_LICENSE, { method: 'POST', body: formData });
+                    const result = await response.json();
+                    if (!response.ok && !(result && typeof result.success !== 'undefined')) { throw new Error(result.plate_number || result.error || `处理失败 (HTTP ${response.status})`); }
+                    if (result.success) { resultTextDiv.textContent = result.plate_number || "未能识别到车牌号码。"; }
+                    else { showErrorAdvanced(result.plate_number || result.error || "车牌识别失败。"); resultTextDiv.innerHTML = `<p class="placeholder-text" style="color:red;">识别失败: ${result.plate_number || result.error || '未知错误'}</p>`;}
+                } catch (error) { console.error("车牌识别错误:", error); showErrorAdvanced(`识别过程中发生错误: ${error.message}`); resultTextDiv.innerHTML = '<p class="placeholder-text" style="color:red;">识别出错</p>';}
+                finally { processButton.disabled = false; }
+            });
+            function showErrorAdvanced(message) {errorMessageDiv.textContent = message;errorMessageDiv.style.display = message ? 'block' : 'none';}
+        });
+    </script>
+</body>
+</html>
